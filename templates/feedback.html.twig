@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(feedbackForm, {
+        'method': "POST",
+        'action': "/api/feedback/send",
+    }) }}
+    <label for=""> Email
+        {{ form_widget(feedbackForm.email, {
+            'label': 'email',
+            'type': 'email'
+        }) }}
+    </label>
+
+    <label for=""> Name
+        {{ form_widget(feedbackForm.name, {
+            'label': 'name',
+        }) }}
+    </label>
+
+    <label for=""> Phone
+        {{ form_widget(feedbackForm.phone, {
+            'label': 'phone',
+        }) }}
+    </label>
+
+    <label for=""> Message
+        {{ form_widget(feedbackForm.message, {
+            'label': 'message',
+            'type': 'textarea'
+        }) }}
+    </label>
+
+    {{ form_widget(feedbackForm.recaptcha) }}
+    {{ form_row(feedbackForm.submit) }}
+    {{ form_end(feedbackForm) }}
+{% endblock %}

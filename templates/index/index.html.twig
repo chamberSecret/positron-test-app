@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Positron Store{% endblock %}
+
+{% block body %}
+<div class="" style="display: flex">
+    {% include 'index/components/categories.html.twig' with {'categories' : categories} %}
+    {% include 'index/components/books.html.twig' with {'books' : books} %}
+</div>
+{% endblock %}

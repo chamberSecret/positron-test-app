@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./:/project
+    restart: always
+    ports:
+      - "8080:80"
+    command: nginx -g 'daemon off;'
+    container_name: nginx-${APP_NAME}
+
+  database:
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_USER=admin
+      - MYSQL_DATABASE=library
+    volumes:
+      - ./data/db/mysql://var/lib/mysql
+    ports:
+      - "3306:3306"
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+
+  mailer:
+    image: schickling/mailcatcher
+    ports:
+      - "1028:1080"
+
+  php-fpm:
+    build:
+      context: ./docker/php-fpm
+    environment:
+      XDEBUG_CONFIG: "remote_host=172.18.18.1 remote_enable=1 remote_autostart=off  remote_port=9008"
+      PHP_IDE_CONFIG: "serverName=first"
+    volumes:
+      - ./:/project
+    container_name: php-fpm-${APP_NAME}
+    deploy:
+      resources:
+        limits:
+          memory: 300M
+    depends_on:
+      - database
+
+  php-client:
+    build:
+      context: ./docker/php
+    volumes:
+      - ./:/project
+    command: sleep 10000
+    container_name: php-cli-${APP_NAME}
+
+volumes:
+  database:

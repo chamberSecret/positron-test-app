@@ -1,0 +1,10 @@
+<header>
+    {% set user = getUser() %}
+        <a href="{{ path('app_index') }}">Main</a>
+    {% if user is defined and user != null %}
+        <h1>{{ user }}</h1>
+    {% else %}
+        <a href="{{ path('app_login') }}">Login</a>
+    {% endif %}
+        <a href="{{ path('feedback/index') }}">Feedback</a>
+</header>
