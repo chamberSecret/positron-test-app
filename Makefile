@@ -1,4 +1,4 @@
-init: docker-down docker-pull docker-build docker-up app-composer-install app-composer-update app-migrations
+init: docker-down docker-pull docker-build docker-up app-composer-install app-composer-update app-migrations app-fixtures app-parse
 up: docker-up
 down: docker-down
 restart: down up

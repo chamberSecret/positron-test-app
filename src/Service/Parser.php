@@ -11,16 +11,19 @@ use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class Parser
 {
     private ObjectManager $manager;
     private string $PATH = "images";
+    private ParameterBagInterface $parameterBag;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(ManagerRegistry $doctrine, ParameterBagInterface $parameterBag)
     {
         $this->manager = $doctrine->getManager();
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -36,6 +39,10 @@ class Parser
 
             $data = file_get_contents($url);
             $data = json_decode($data, true);
+
+            if (!file_exists($this->parameterBag->get('kernel.project_dir') . '/public/images')) {
+                mkdir($this->parameterBag->get('kernel.project_dir') . '/public/images');
+            }
 
             return $this->_parse($data);
         }

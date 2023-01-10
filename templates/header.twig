@@ -1,10 +1,16 @@
-<header>
-    {% set user = getUser() %}
+<header style="display: flex; justify-content: space-between;">
+    <div class="links">
         <a href="{{ path('app_index') }}">Main</a>
-    {% if user is defined and user != null %}
-        <h1>{{ user }}</h1>
-    {% else %}
-        <a href="{{ path('app_login') }}">Login</a>
-    {% endif %}
         <a href="{{ path('feedback/index') }}">Feedback</a>
+    </div>
+    <div class="account">
+        {% set user = getUser() %}
+        {% if user is defined and user != null %}
+            <a href="{{ path('app_login') }}">{{ user }}</a>
+            <a href="{{ path('app_logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ path('app_login') }}">Login</a>
+            <a href="{{ path('app_register') }}">Register</a>
+        {% endif %}
+    </div>
 </header>

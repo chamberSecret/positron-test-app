@@ -21,7 +21,7 @@ class DashboardController extends AbstractDashboardController
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    #[Route('/admin', name: 'admin')]
+    #[Route('/admin', name: 'app_admin')]
     public function index(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -36,7 +36,7 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linkToUrl('Back', 'fa fa-back', '/');
         yield MenuItem::linkToCrud('Books', 'fa fa-book', Book::class);
         yield MenuItem::linkToCrud('Categories', 'fa fa-bars', Category::class);
         yield MenuItem::linkToCrud('Feedback', 'fa fa-message', Feedback::class);
